@@ -7,6 +7,7 @@
     	<result property="boardNum" 	column="BOARD_NUM"/>
     	<result property="boardTitle" 	column="BOARD_TITLE"/>
     	<result property="boardComment" column="BOARD_COMMENT"/>
+    	<result property="creator" 		column="CREATOR"/>
     	<collection property="comCodeVo" resultMap="comCodeVo"/>
     	<collection property="memberVo" resultMap="memberVo"/>
     </resultMap>
@@ -35,6 +36,7 @@
 		  ,BOARD_NUM
 		  ,BOARD_TITLE
 		  ,BOARD_COMMENT
+		  ,CREATOR
 		  ,TOTAL_CNT
 		  ,CODE_NAME
 		FROM 
@@ -44,6 +46,7 @@
 				,b.BOARD_NUM
 				,b.BOARD_TITLE
 				,b.BOARD_COMMENT
+				,b.CREATOR
 				,cd.CODE_NAME
 				,cd.CODE_TYPE
 				,cd.CODE_ID
@@ -94,6 +97,7 @@
 			,BOARD_NUM
 			,BOARD_TITLE
 			,BOARD_COMMENT
+			,b.CREATOR
 			,CODE_NAME
 			,CODE_ID
 			,CODE_TYPE
@@ -135,7 +139,7 @@
 	    WHERE BOARD_TYPE = #{boardType})
         ,#{boardTitle}
         ,#{boardComment}
-        ,'SYSTEM'
+        ,#{creator}
         ,TO_CHAR(SYSDATE)
         ,'SYSTEM'
         ,TO_CHAR(SYSDATE)
@@ -183,9 +187,9 @@
     </insert>
     
     <select id="idCheck" parameterType="String" resultType="Integer">
-      SELECT COUNT(*) FROM USER_INFO
-      WHERE
-          USER_ID = #{userId}
+      SELECT COUNT(*) 
+      FROM USER_INFO
+      WHERE   USER_ID = #{userId}
 	</select>
 	
 	<select id="login" parameterType="com.spring.board.vo.MemberVo" resultMap="memberVo">

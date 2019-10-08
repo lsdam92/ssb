@@ -27,6 +27,7 @@
 	</c:if>
 	<c:if test="${userInfo != null }">
 		<td>
+			<p>${userInfo.userName}</p>
 			<a href="/board/logout.do">Logout</a>
 		</td>
 	</c:if>	
@@ -55,6 +56,7 @@
 						</td>
 						<td>
 							<a href = "/board/${list.boardType}/${list.boardNum}/boardView.do?pageNo=${pageNo}">${list.boardTitle}</a>
+						
 						</td>
 					</tr>	
 				</c:forEach>

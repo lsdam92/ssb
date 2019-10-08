@@ -190,7 +190,7 @@ public class BoardController {
 		result.put("success", (resultCnt > 0)?"Y":"N");
 		String callbackMsg = commonUtil.getJsonCallBackString(" ",result);
 		
-		System.out.println("callbackMsg::"+callbackMsg);
+		System.out.println("callbackMsg::"+callbackMsg); 
 		
 		return callbackMsg;
 	}
@@ -212,22 +212,22 @@ public class BoardController {
 	public String loginView(){
 		return "board/login";
 	}
-	
+	//로그인요청
 	@RequestMapping(value = "/board/loginAction.do", method = RequestMethod.POST)
 	public String login(Model model, MemberVo memberVo) throws Exception{
 		System.out.println("로그인하기 메소드 들어옴");
 		
-		System.out.println("로그인 메소드 : 받은 값" + memberVo);
+//		System.out.println("로그인 메소드 : 받은 값" + memberVo);
 		
 		MemberVo loginMember = boardService.login(memberVo);
 		
-		System.out.println("로그인 한 객체 받아옴 : " + loginMember);
-		
+//		System.out.println("로그인 한 객체 받아옴 : " + loginMember);
 		
 		if(loginMember != null) {
 			model.addAttribute("userInfo", loginMember);
 			return "redirect:/board/boardList.do";
 		} else {
+			model.addAttribute("msg", "fail");
 			return "board/login";
 		}
 		

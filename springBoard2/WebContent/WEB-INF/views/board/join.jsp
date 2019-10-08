@@ -10,65 +10,121 @@
 <script type="text/javascript">
 var idck= 0;
 	$j(document).ready(function(){
+		// ÇÑ±ÛÀÔ·Â¸·±â ½ºÅ©¸³Æ®
+		$j("#userId").keyup(function(e) { 
+			if (!(e.keyCode >=37 && e.keyCode<=40)) {
+				var v = $j(this).val();
+				$j(this).val(v.replace(/[^a-z0-9]/gi,''));
+			}
+		});
+		// ÇÑ±Û¸¸ÀÔ·Â ½ºÅ©¸³Æ®
+		$j("#userName").keyup(function(e) { 
+			if (!(e.keyCode >=37 && e.keyCode<=40)) {
+				var v = $j(this).val();
+				$j(this).val(v.replace(/[a-z0-9]/gi,''));
+			}
+		});
+		// ¼ıÀÚ¸¸ ÀÔ·Â°¡´É
+		$j("#userPhone2").keyup(function(e) { 
+			if (!(e.keyCode >=37 && e.keyCode<=40)) {
+				var v = $j(this).val();
+				$j(this).val(v.replace(/[^0-9]/gi,''));
+			}
+		});
+		$j("#userPhone3").keyup(function(e) { 
+			if (!(e.keyCode >=37 && e.keyCode<=40)) {
+				var v = $j(this).val();
+				$j(this).val(v.replace(/[^0-9]/gi,''));
+			}
+		});
 		
+		//PostNo ÀÔ·Â½Ã
+		$j("#userAddr1").on("change keyup paste", function () {
+		    var output;
+		    var input = $j("#userAddr1").val();
+		    input = input.replace(/[^0-9]/gi, '');
+		    var area = input.substr(0, 3);
+		    var pre = input.substr(3, 4);
+		    if (area.length < 3) {
+		        output = area;
+		    } else if (area.length == 3 && pre.length < 4) {
+		        output = area + "-" + pre;
+		    }
+		    console.log(output);
+		    $j("#userAddr1").val(output);
+		});
 		
+
 		$j("#join").on("click",function(){
 			var $frm = $j('.memberJoin :input');
 			var param = $frm.serialize();
 			
 			var phone2 = $j("#userPhone2").val();
 			var phone3 = $j("#userPhone3").val();
-			alert(param);
+
 			if($j("#userId").val().trim().length == 0){
-				alert("idë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”.");
+				alert("id¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä.");
 				$j("#userId").focus();
 			} else if($j("#userPw").val().trim().length == 0){
-				alert("ë¹„ë°€ë²ˆí˜¸ë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”.");
+				alert("ºñ¹Ğ¹øÈ£¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä.");
 				$j("#userPw").focus();
 			} else if($j("#passck").val().trim().length == 0){
-				alert("ë¹„ë°€ë²ˆí˜¸ í™•ì¸ë€ì„ ì…ë ¥í•´ì£¼ì„¸ìš”.");
+				alert("ºñ¹Ğ¹øÈ£ È®ÀÎ¶õÀ» ÀÔ·ÂÇØÁÖ¼¼¿ä.");
 				$j("#passck").focus();
 			} else if($j("#userName").val().trim().length == 0){
-				alert("ì´ë¦„ì„ ì…ë ¥í•´ì£¼ì„¸ìš”.");
+				alert("ÀÌ¸§À» ÀÔ·ÂÇØÁÖ¼¼¿ä.");
 				$j("#userName").focus();
 			} else if(phone2.trim().length == 0){
-				alert("í•¸ë“œí°ë²ˆí˜¸ë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”.");
+				alert("ÇÚµåÆù¹øÈ£¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä.");
 				$j("#userPhone2").focus();
-			} else if(phone3.trim().length == 0) {
-				alert("í•¸ë“œí°ë²ˆí˜¸ë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”.");
+			}else if(phone2.trim().length < 4){
+				alert("ÇÚµåÆù¹øÈ£ 4ÀÚ¸®¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä.");
+				$j("#userPhone2").focus();
+			}else if(phone3.trim().length < 4){
+				alert("ÇÚµåÆù¹øÈ£ 4ÀÚ¸®¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä.");
+				$j("#userPhone3").focus();
+			}else if(phone3.trim().length == 0) {
+				alert("ÇÚµåÆù¹øÈ£¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä.");
 				$j("#userPhone3").focus();
 			}else if(isNaN(phone2)) {
-				alert("í•¸ë“œí°ë²ˆí˜¸ëŠ” ìˆ«ìë§Œ ì…ë ¥ê°€ëŠ¥í•©ë‹ˆë‹¤.");
+				alert("ÇÚµåÆù¹øÈ£´Â ¼ıÀÚ¸¸ ÀÔ·Â°¡´ÉÇÕ´Ï´Ù.");
 				$j("#userPhone2").focus();
 			}else if(isNaN(phone3)) {
-				alert("í•¸ë“œí°ë²ˆí˜¸ëŠ” ìˆ«ìë§Œ ì…ë ¥ê°€ëŠ¥í•©ë‹ˆë‹¤.");
+				alert("ÇÚµåÆù¹øÈ£´Â ¼ıÀÚ¸¸ ÀÔ·Â°¡´ÉÇÕ´Ï´Ù.");
 				$j("#userPhone3").focus();
 			}else  if(idck==0){
-	            alert('ì•„ì´ë”” ì¤‘ë³µì²´í¬ë¥¼ í•´ì£¼ì„¸ìš”');
+	            alert('¾ÆÀÌµğ Áßº¹Ã¼Å©¸¦ ÇØÁÖ¼¼¿ä');
+	        }else  if($j("#userAddr1").val().trim().length <7){
+	            alert('¿ìÆí¹øÈ£ Çü½Ä xxx-xxxÀ» ¸ÂÃçÁÖ¼¼¿ä');
 	        }else {
-			$j.ajax({
-			    url : "/board/joinAction.do",
-			    dataType: "json",
-			    type: "POST",
-			    data : param,
-			    success: function(data, textStatus, jqXHR)
-			    {
-					alert("íšŒì›ê°€ì…ì™„ë£Œ");
-					
-					alert("ë©”ì„¸ì§€:"+data.success);
-					
-					location.href = "/board/boardList.do?pageNo=1";
-			    },
-			    error: function (jqXHR, textStatus, errorThrown)
-			    {
-			    	alert("ì‹¤íŒ¨");
-			    }
-			});
+				$j.ajax({
+				    url : "/board/joinAction.do",
+				    dataType: "json",
+				    type: "POST",
+				    data : param,
+				    success: function(data, textStatus, jqXHR)
+				    {
+						alert("È¸¿ø°¡ÀÔ¿Ï·á");
+						
+						alert("¸Ş¼¼Áö:"+data.success);
+						
+						location.href = "/board/boardList.do?pageNo=1";
+				    },
+				    error: function (jqXHR, textStatus, errorThrown)
+				    {
+				    	alert("½ÇÆĞ");
+				    }
+				});
 			}
 		});
+		
+		$j("#userId").keyup(function () {
+			idck = 0;
+		});
+		
 		$j("#idck").click(function() {
 	        
-	        //userid ë¥¼ param.
+	        //userid ¸¦ param.
 	        var userid =  $j("#userId").val(); 
 	        
 	        $j.ajax({
@@ -82,13 +138,18 @@ var idck= 0;
 	                if (data.cnt > 0) {
 	                    
 	                    $j("#userId").focus();
-	                    alert("ì•„ì´ë””ê°€ ì¡´ì¬í•©ë‹ˆë‹¤. ë‹¤ë¥¸ ì•„ì´ë””ë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”.");
+	                    alert("¾ÆÀÌµğ°¡ Á¸ÀçÇÕ´Ï´Ù. ´Ù¸¥ ¾ÆÀÌµğ¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä.");
 	                    
 	                
-	                } else {
+	                } else if(userid == ''){
+	                	
+	                	 $j("#userId").focus();
+	                	alert("¾ÆÀÌµğ¸¦ ÀÔ·ÂÇÏ¼¼¿ä");
+	                	
+	                }else {
 	                    $j("#userPw").focus();
-	                    alert("ì‚¬ìš©ê°€ëŠ¥í•œ ì•„ì´ë””ì…ë‹ˆë‹¤.");
-	                    //ì•„ì´ë””ê°€ ì¤‘ë³µí•˜ì§€ ì•Šìœ¼ë©´  idck = 1 
+	                    alert("»ç¿ë°¡´ÉÇÑ ¾ÆÀÌµğÀÔ´Ï´Ù.");
+	                    //¾ÆÀÌµğ°¡ Áßº¹ÇÏÁö ¾ÊÀ¸¸é  idck = 1 
 	                    idck = 1;
 	                    
 	                }
@@ -100,49 +161,49 @@ var idck= 0;
 	        });
 	    });
 		
-		// password í˜•ì‹ - ì •ê·œí‘œí˜„ì‹
-		// ìˆ«ì, íŠ¹ìˆ˜ë¬¸ì, ì˜ë¬¸ì í¬í•¨í•œ6~12ìë¦¬ ì´ë‚´ì˜ ë¹„ë°€ë²ˆí˜¸ë§Œ í—ˆìš©
+		// password Çü½Ä - Á¤±ÔÇ¥Çö½Ä
+		// ¼ıÀÚ, Æ¯¼ö¹®ÀÚ, ¿µ¹®ÀÚ Æ÷ÇÔÇÑ6~12ÀÚ¸® ÀÌ³»ÀÇ ºñ¹Ğ¹øÈ£¸¸ Çã¿ë
 		var passtypecnt = 1;
 		var passwordRule = /(?=.*\d{1,})(?=.*[~`!@#$%\^&*()-+=]{1,})(?=.*[a-zA-Z]{1,}).{6,11}$/;
 		
-		// password í˜•ì‹ ì²´í¬
+		// password Çü½Ä Ã¼Å©
 		$j("#userPw").keyup(function(){
 			var pass = $j(this).val();
 			var passck = $j("#passck").val();
 			
 			if(pass.trim().length == 0){			
 				$j("#passtypecheck").css('color', 'tomato');
-				$j("#passtypecheck").text('*ë¹„ë°€ë²ˆí˜¸ë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”.');
+				$j("#passtypecheck").text('*ºñ¹Ğ¹øÈ£¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä.');
 			} else if(!passwordRule.test(pass)){
 				passtypecnt = 1;
 				$j("#passtypecheck").css('color', 'tomato');
-				$j("#passtypecheck").html('*ë¹„ë°€ë²ˆí˜¸ëŠ” íŠ¹ìˆ˜ë¬¸ì+ì˜ë¬¸+ìˆ«ìë¥¼ í¬í•¨í•œ 6~12ìë¦¬ì…ë‹ˆë‹¤.');
+				$j("#passtypecheck").html('*ºñ¹Ğ¹øÈ£´Â Æ¯¼ö¹®ÀÚ+¿µ¹®+¼ıÀÚ¸¦ Æ÷ÇÔÇÑ 6~12ÀÚ¸®ÀÔ´Ï´Ù.');
 			}else{
 				passtypecnt = 0;
 				$j("#passtypecheck").css('color', 'steelblue');
-				$j("#passtypecheck").html('*ì‚¬ìš© ê°€ëŠ¥í•œ ë¹„ë°€ë²ˆí˜¸ ì…ë‹ˆë‹¤.');
+				$j("#passtypecheck").html('*»ç¿ë °¡´ÉÇÑ ºñ¹Ğ¹øÈ£ ÀÔ´Ï´Ù.');
 			}
 		});
 		
 		var passsamecnt = 1;
 		
-		// passwordí™•ì¸ ì¼ì¹˜ ì—¬ë¶€
+		// passwordÈ®ÀÎ ÀÏÄ¡ ¿©ºÎ
 		$j("#passck").keyup(function(){
 			var pass = $j("#userPw").val();
 			var passck = $j(this).val();
 			
 			if(passck.trim().length == 0){			
 				$j("#passsamecheck").css('color', 'tomato');
-				$j("#passsamecheck").text('*ë¹„ë°€ë²ˆí˜¸ë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”.');
+				$j("#passsamecheck").text('*ºñ¹Ğ¹øÈ£¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä.');
 			}else if(pass != passck){
 				passsamecnt = 1;
 				$j("#passsamecheck").css('color', 'tomato');
-				$j("#passsamecheck").text('*ë¹„ë°€ë²ˆí˜¸ê°€ ì¼ì¹˜í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤. ë‹¤ì‹œ í™•ì¸í•´ì£¼ì„¸ìš”.');
+				$j("#passsamecheck").text('*ºñ¹Ğ¹øÈ£°¡ ÀÏÄ¡ÇÏÁö ¾Ê½À´Ï´Ù. ´Ù½Ã È®ÀÎÇØÁÖ¼¼¿ä.');
 				return false;
 			} else {
 				passsamecnt = 0;
 				$j("#passsamecheck").css('color', 'steelblue');
-				$j("#passsamecheck").html('*ë¹„ë°€ë²ˆí˜¸ê°€ ì¼ì¹˜í•©ë‹ˆë‹¤.');			
+				$j("#passsamecheck").html('*ºñ¹Ğ¹øÈ£°¡ ÀÏÄ¡ÇÕ´Ï´Ù.');			
 			}
 		});
 	});
@@ -166,8 +227,8 @@ var idck= 0;
 						ID
 						</td>
 						<td width="300">
-						<input name="userId" type="text"  value="${memberVo.userId}" id="userId">
-						<input name="idck" type="button" value="ì¤‘ë³µí™•ì¸" id="idck">
+						<input name="userId" type="text"  value="${memberVo.userId}" id="userId" maxlength="15">
+						<input name="idck" type="button" value="Áßº¹È®ÀÎ" id="idck">
 						</td>
 					</tr>
 					<tr>
@@ -175,8 +236,8 @@ var idck= 0;
 						PW
 						</td>
 						<td width="300">
-						<input name="userPw" type="password" value="${memberVo.userPw}" id="userPw"> 
-						<div id="passtypecheck">ë¹„ë°€ë²ˆí˜¸ë¥¼ ì…ë ¥í•˜ì„¸ìš”.</div>
+						<input name="userPw" type="password" value="${memberVo.userPw}" id="userPw" maxlength="12"> 
+						<div id="passtypecheck">ºñ¹Ğ¹øÈ£¸¦ ÀÔ·ÂÇÏ¼¼¿ä.</div>
 						</td>
 					</tr>
 					<tr>
@@ -184,8 +245,8 @@ var idck= 0;
 						PW CHECK
 						</td>
 						<td>
-						<input type="password" id="passck">
-						<div id="passsamecheck">*ë¹„ë°€ë²ˆí˜¸ë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”.</div>
+						<input type="password" id="passck" maxlength="12">
+						<div id="passsamecheck">*ºñ¹Ğ¹øÈ£¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä.</div>
 						</td>
 					</tr>
 					<tr>
@@ -193,7 +254,7 @@ var idck= 0;
 						NAME
 						</td>
 						<td>
-						<input name="userName" type="text"  value="${memberVo.userName}" id="userName">
+						<input name="userName" type="text"  value="${memberVo.userName}" id="userName" maxlength="4">
 						</td>
 					</tr>
 					<tr>
@@ -206,8 +267,8 @@ var idck= 0;
 									<option  value="${list.codeName}">${list.codeName}
 								</c:forEach>
 							</select>
-						- <input name="userPhone2" type="text" value="${memberVo.userPhone2}" style="width: 50px;" id="userPhone2"> - 
-							<input name="userPhone3" type="text" value="${memberVo.userPhone3}"style="width: 50px;" id="userPhone3"> 
+						- <input name="userPhone2" type="text" value="${memberVo.userPhone2}" style="width: 50px;" id="userPhone2"maxlength="4"> - 
+							<input name="userPhone3" type="text" value="${memberVo.userPhone3}"style="width: 50px;" id="userPhone3" maxlength="4"> 
 						</td>
 					</tr>
 					<tr>
@@ -215,7 +276,7 @@ var idck= 0;
 						POSTNO
 						</td>
 						<td>
-						<input name="userAddr1" type="text" value="${memberVo.userAddr1}">
+						<input name="userAddr1" type="text" value="${memberVo.userAddr1}" id="userAddr1" maxlength="7">
 						</td>
 					</tr>
 					<tr>
@@ -223,7 +284,7 @@ var idck= 0;
 						ADDRESS
 						</td>
 						<td>
-						<input name="userAddr2" type="text"value="${memberVo.userAddr2}">
+						<input name="userAddr2" type="text"value="${memberVo.userAddr2}" maxlength="65">
 						</td>
 					</tr>
 					<tr>
@@ -231,7 +292,7 @@ var idck= 0;
 						COMPANY
 						</td>
 						<td>
-						<input name="userCompany" type="text"  value="${memberVo.userCompany}">
+						<input name="userCompany" type="text"  value="${memberVo.userCompany}" maxlength="30">
 						</td>
 					</tr>
 				</table>

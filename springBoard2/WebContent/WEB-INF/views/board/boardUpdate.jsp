@@ -93,7 +93,7 @@
 		<tr>
 			<td align="right">
 				<a href="/board/boardList.do">List</a>
-				<a href="/board/boardUpdateAction.do" id="submit">Update</a>
+				<a href="#none" id="submit">Update</a>
 			</td>
 		</tr>
 	</table>

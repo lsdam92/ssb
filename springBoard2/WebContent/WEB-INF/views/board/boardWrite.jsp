@@ -36,6 +36,17 @@
 			    }
 			});
 		});
+		
+		$j("#addFrm").click(function() {
+			alert("추가되라");
+			/* var frm = document.createElement('table');
+			
+			frm.innerHTML = "";
+		
+		document.getElementById('boardWrite').appendChild(frm); */
+		
+		$j("table.writeFrm").after("");
+		});
 	});
 	
 
@@ -45,12 +56,14 @@
 	<table align="center">
 		<tr>
 			<td align="right">
+			<input id="addFrm" type="button" value="추가 생성">
+			<input id="delFrm" type="button" value="삭제">
 			<input id="submit" type="button" value="작성">
 			</td>
 		</tr>
 		<tr>
 			<td>
-				<table border ="1"> 
+				<table border ="1" class="writeFrm"> 
 					<tr>
 						<td width="120" align="center">
 						Type
@@ -84,9 +97,16 @@
 						Writer
 						</td>
 						<td>
+						${userInfo.userName}
+						<input type="hidden" name="creator" value="${userInfo.userId}">
 						</td>
 					</tr>
 				</table>
+			</td>
+		</tr>
+		<tr>
+			<td class="add">
+			
 			</td>
 		</tr>
 		<tr>
