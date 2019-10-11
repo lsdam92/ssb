@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+  
+<mapper namespace="board">
+	<resultMap type="com.mytest.test.model.BoardDto" id="boardDto">
+	
+	</resultMap>
+
+	<select id="listArticle" parameterType="com.mytest.test.model.BoardDto" resultMap="boardDto">
+		select 
+			kor_name
+			,jumin_no
+			,sex,tech_grd
+			,join_st
+			,enable
+			,user_no
+		from is_mater
+	</select>
+	
+	<select id="viewArticle" parameterType="com.mytest.test.model.BoardDto" resultMap="boardDto">
+		select
+			user_no
+			 ,kor_name
+			 ,eng_name
+			 ,han_name
+			 ,jumin_no
+			 ,birth_ymd
+			 ,birth_rn
+			 ,sex
+			 ,tech_grd
+			 ,join_st
+			 ,enable
+			 ,tel
+		from is_mater
+		where user_no = #{user_no}
+	</select>
+	
+	<update id="viewUpdate" parameterType="com.mytest.test.model.BoardDto">
+	update is_mater
+	set kor_name	= #{kor_name},
+		eng_name 	= #{eng_name},
+		HAN_NAME 	= #{han_name},
+		JUMIN_NO	= #{jumin_no},
+		SAJIN_NM 	= #{sajin_nm},
+		BIRTH_YMD	= #{birth_ymd},
+		BIRTH_RN 	= #{birth_rn},
+		SEX			= #{sex},
+		MARRY_YN	= #{marry_yn},
+		WORK_YEAR 	= #{work_year},
+		JOIN_ST		= #{join_st},
+		HOPE_WORK 	= #{hope_work},
+		ADDR		= #{addr},
+		TEL     	= #{tel},   	          
+		EMAIL  		= #{email},              
+		TECH_GRD	= #{tech_grd},           
+		ALC_QT  	= #{alc_qt}       
+	
+	where user_no 	= #{user_no}    
+	</update>
+</mapper>
